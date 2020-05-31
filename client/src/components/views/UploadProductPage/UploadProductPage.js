@@ -31,7 +31,7 @@ function UploadProductPage({user, history}) {
     setPriceValue(e.target.value)
   }
 
-  const onSizesSelectChange = e => {
+  const onSizeSelectChange = e => {
     setSizeValue(e.target.value)
   }
  
@@ -40,7 +40,7 @@ function UploadProductPage({user, history}) {
     setImages(newImages)
   }
 
-  const onSubmit = e => {
+  const submitUploadProduct = e => {
     e.preventDefault();
     console.log(Images)
 
@@ -106,7 +106,7 @@ function UploadProductPage({user, history}) {
         type="number"
       />
 
-      <select onChange={onSizesSelectChange}>
+      <select onChange={onSizeSelectChange}>
         {sizes.map(item => (
           <option key={item.key} value={item.key}>{item.value}</option>
         ))}
@@ -116,7 +116,7 @@ function UploadProductPage({user, history}) {
       <br />
 
       <button
-        onClick={onSubmit}
+        onClick={submitUploadProduct}
       >
         Submit
       </button>
