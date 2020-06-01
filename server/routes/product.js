@@ -44,21 +44,37 @@ router.post("/uploadProduct", auth, (req, res) => {
   })
 });
 
-router.post("/getProducts", auth, (req, res) => {
-  
+router.post("/getProducts", (req, res) => {
   const order = req.body.order ? req.body.order : 'desc';
   const sortBy = req.body.sortBy ? req.body.sortBy : '_id';
   const limit = req.body.limit ? req.body.limit : 100;
   const skip = parseInt(req.body.skip);
 
-  Product.find()
+  const findArgs = {};
+
+  console.log('here1', req.body.filters)
+
+  for (let key in req.body.filters) {
+    // console.log(key)
+    if (req.body.filters[key].length > 0) {
+      if (key === 'price') {
+
+      } 
+      if (key === 'size') {
+        findArgs[key] = req.body.filters[key]
+        console.log('here', findArgs)
+      }
+    } 
+  }
+
+  Product.find(findArgs)
   .populate('author')
   .sort([[sortBy, order]])
   .skip(skip)
   .limit(limit)
   .exec((err, products) => {
     if (err) return res.status(400).json({ success: false, err})
-    return res.status(200).json({ success: true, products, displaySize: products.length })
+    return res.status(200).json({ success: true, products, displaySize: products.length }), console.log(products)
   })
 });
 
