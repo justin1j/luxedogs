@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Images({images}) {
+function Images({ images }) {
   return (
     <div>
       {images.map((image, index) => (
