@@ -36,7 +36,6 @@ function UploadProductPage({user, history}) {
   }
  
   const updateImages = newImages => {
-    console.log(newImages)
     setImages(newImages)
   }
 
@@ -61,6 +60,7 @@ function UploadProductPage({user, history}) {
     .then(res => {
       if (res.data.success) {
         alert('Product uploaded successfully')
+        console.log(productInfo)
         history.push('/')
       } else {
         alert('failed to upload product')
@@ -106,7 +106,7 @@ function UploadProductPage({user, history}) {
         type="number"
       />
 
-      <select onChange={onSizeSelectChange}>
+      <select onChange={onSizeSelectChange} value={SizeValue}>
         {sizes.map(item => (
           <option key={item.key} value={item.key}>{item.value}</option>
         ))}
