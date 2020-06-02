@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Icon, Row, Col, Card } from 'antd';
 import Images from '../../utils/Images';
 import CheckBox from './Sections/CheckBox';
+import RadioBox from './Sections/RadioBox';
+import { sizes, price } from './Sections/filterData';
 
 const { Meta } = Card
 
@@ -75,14 +77,27 @@ function LandingPage() {
 		setSkip(0);
 	}
 
+	const handlePrice = value => {
+		const priceData = price;
+		let priceRange;
+		for (let key in priceData) {
+			if (priceData[key]._id === parseInt(value)) {
+				priceRange = priceData[key].priceRange;
+			}
+		}
+		return priceRange
+	}
+
 	const handleFilters = (filters, category) => {
 		console.log(filters)
 		
 		const newFilters = { ...Filters };
+		console.log(newFilters)
 		newFilters[category] = filters;
 		
 		if (category === 'price') {
-
+			const priceValues = handlePrice(filters);
+			newFilters[category] = priceValues;
 		}
 		console.log('here', newFilters)
 		showFilteredResults(newFilters)
@@ -108,9 +123,20 @@ function LandingPage() {
 
 			{/* Filter */}
 
-			<CheckBox
-				handleFilters={filters => handleFilters(filters, 'size')}
-			/>
+			<Row gutter={[16, 16]}>
+				<Col lg={12} xs={24}>
+					<CheckBox
+						sizeList={sizes}
+						handleFilters={filters => handleFilters(filters, 'size')}
+					/>
+				</Col>
+				<Col lg={12} xs={24}>
+					<RadioBox 
+						priceList={price}
+						handleFilters={filters => handleFilters(filters, 'price')}
+					/>
+				</Col>
+			</Row>
 
 			{/* Search */}
 
