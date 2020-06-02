@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Descriptions, Button } from 'antd'
 
-function ProductInfo({ detail }) {
+function ProductInfo({ detail, addToCart }) {
 
   const [Product, setProduct] = useState({})
 
   useEffect(() => {
     setProduct(detail)
   }, [detail])
+
+  const addToCartHandler = () => {
+    addToCart(detail._id)
+    console.log(detail._id)
+  }
 
   return (
     <div>
@@ -21,7 +26,7 @@ function ProductInfo({ detail }) {
         <br />
         <br />
         <div style={{ display: 'flex', justifyContent: 'center'}}>
-          <Button size="large" shape="round" type="danger" onClick>
+          <Button size="large" shape="round" type="danger" onClick={addToCartHandler}>
             Add to Cart
           </Button>
         </div>
