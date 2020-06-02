@@ -103,13 +103,15 @@ router.post("/getProducts", (req, res) => {
 
 router.get("/products_by_id", (req, res) => {
   const type = req.query.type;
-  const productIds = req.query.id;
+  let productIds = req.query.id;
 
   if (type === 'array') {
-
+    const ids = req.query.id.split(',');
+    productIds = [];
+    productIds = ids.map(item => item)
   }
 
-  // we need to find the product information that belong to product Id
+  // find the product information that belongs to its productId
 
   Product.find({'_id' : { $in: productIds }})
   .populate('author')
