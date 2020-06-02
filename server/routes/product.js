@@ -97,7 +97,26 @@ router.post("/getProducts", (req, res) => {
       return res.status(200).json({ success: true, products, displaySize: products.length }), console.log(products)
     })
   }
+});
 
+//?id=${productId}&type=single
+
+router.get("/products_by_id", (req, res) => {
+  const type = req.query.type;
+  const productIds = req.query.id;
+
+  if (type === 'array') {
+
+  }
+
+  // we need to find the product information that belong to product Id
+
+  Product.find({'_id' : { $in: productIds }})
+  .populate('author')
+  .exec((err, product) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).send(product);
+  })
 
 });
 
