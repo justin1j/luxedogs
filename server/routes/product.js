@@ -49,8 +49,10 @@ router.post("/getProducts", (req, res) => {
   const sortBy = req.body.sortBy ? req.body.sortBy : '_id';
   const limit = req.body.limit ? req.body.limit : 100;
   const skip = parseInt(req.body.skip);
+  const term = req.body.searchTerm;
 
   const findArgs = {};
+
 
   console.log('here1', req.body.filters)
 
@@ -71,16 +73,32 @@ router.post("/getProducts", (req, res) => {
   }
 
   console.log('here',findArgs)
+  console.log('term', term)
 
-  Product.find(findArgs)
-  .populate('author')
-  .sort([[sortBy, order]])
-  .skip(skip)
-  .limit(limit)
-  .exec((err, products) => {
-    if (err) return res.status(400).json({ success: false, err})
-    return res.status(200).json({ success: true, products, displaySize: products.length }), console.log(products)
-  })
+  if (term) {
+    Product.find(findArgs)
+    .find({ title: { $regex: term, $options: 'i' }})
+    .populate('author')
+    .sort([[sortBy, order]])
+    .skip(skip)
+    .limit(limit)
+    .exec((err, products) => {
+      if (err) return res.status(400).json({ success: false, err})
+      return res.status(200).json({ success: true, products, displaySize: products.length }), console.log(products)
+    })
+  } else {
+    Product.find(findArgs)
+    .populate('author')
+    .sort([[sortBy, order]])
+    .skip(skip)
+    .limit(limit)
+    .exec((err, products) => {
+      if (err) return res.status(400).json({ success: false, err})
+      return res.status(200).json({ success: true, products, displaySize: products.length }), console.log(products)
+    })
+  }
+
+
 });
 
 module.exports = router;
