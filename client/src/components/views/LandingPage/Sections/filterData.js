@@ -1,7 +1,7 @@
 const price = [
   {
     "_id": 0,
-    "name": "Any",
+    "name": "All",
     "priceRange": []
   },
   {
