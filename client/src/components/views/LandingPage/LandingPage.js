@@ -4,6 +4,7 @@ import { Icon, Row, Col, Card } from 'antd';
 import Images from '../../utils/Images';
 import CheckBox from './Sections/CheckBox';
 import RadioBox from './Sections/RadioBox';
+import SearchBox from './Sections/SearchBox';
 import { sizes, price } from './Sections/filterData';
 
 const { Meta } = Card
@@ -18,6 +19,7 @@ function LandingPage() {
 		size: [],
 		price: []
 	})
+	const [SearchTerm, setSearchTerm] = useState('')
 
 	const displayProducts = {
 		skip: Skip,
@@ -104,6 +106,15 @@ function LandingPage() {
 		setFilters(newFilters)
 	}
 
+	const handleSearch = (term) => {
+		const displaySearchedProducts = { ...displayProducts, filters: Filters, searchTerm: term } 
+
+		setSkip(0);
+		setSearchTerm(term);
+
+		getProducts(displaySearchedProducts)
+	}
+
 	// Conditional Rendering for View More Button
 
 	let isViewMoreButtonVisible;
@@ -139,6 +150,9 @@ function LandingPage() {
 			</Row>
 
 			{/* Search */}
+			<div style={{ display: 'flex', justifyContent:'flex-end', margin: '1rem auto' }}>
+				<SearchBox handleSearch={handleSearch} SearchTerm={SearchTerm} />
+			</div>
 
 			{Products.length === 0 ?
 				<div style={{ display: 'flex', height: '300px', justifyContent: 'center', alignItems: 'center'}}>
